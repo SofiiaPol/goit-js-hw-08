@@ -66,38 +66,35 @@ const images = [
 
 const gallery = document.querySelector('.gallery');
 
-const imagesListString = images
-  .map(image => {
-    return `
+const galleryItems = images
+  .map(
+    image => `
     <li class="gallery-item">
         <a class="gallery-link" href="${image.original}">
             <img
-                class="gallery-image"
-                src="${image.preview}"
-                data-source="${image.original}"
-                alt="${image.description}"
+            class="gallery-image"
+            src="${image.preview}"
+            data-source="${image.original}"
+            alt="${image.description}"
             />
         </a>
     </li>
-`;
-  })
+
+`
+  )
   .join('');
 
-gallery.innerHTML = imagesListString;
-
-let imageModalWindow = null;
+gallery.innerHTML = galleryItems;
 
 gallery.addEventListener('click', event => {
   event.preventDefault();
-  const target = event.target;
+  const link = event.target.closest('.gallery-link');
+  if (!link) return;
 
-  const imgUrl = target.dataset['source'];
-  imageModalWindow = basicLightbox.create(`<img src="${imgUrl}" />`, {
-    closable: false,
-    className: 'active-modal',
-    onClose: () => {
-      imageModalWindow.close();
-    },
-  });
-  imageModalWindow.show();
+  const source = link.getAttribute('href');
+  // console.log(source);
+  const instance = basicLightbox.create(`
+    <img src="${source}" style="max-width: 100%; max-height: 100%;" />
+  `);
+  instance.show();
 });
