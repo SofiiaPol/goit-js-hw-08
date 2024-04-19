@@ -92,7 +92,6 @@ gallery.addEventListener('click', event => {
   if (!link) return;
 
   const source = link.getAttribute('href');
-  // console.log(source);
   const instance = basicLightbox.create(`
     <img src="${source}" style="max-width: 100%; max-height: 100%;" />
   `);
